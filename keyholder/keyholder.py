@@ -14,6 +14,7 @@ class keyholder:
         self.namespace = namespace
         if (self.type == "zookeeper"):
             self.conn = zoo_handler.zoo_handler(self.host,self.port)
+            self.state = self.conn.state
 
     def ensure_path(self,path):
         self.conn.ensure_path(path)

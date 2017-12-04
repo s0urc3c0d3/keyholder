@@ -1,5 +1,8 @@
 from kazoo.client import KazooClient
 from kazoo.client import KazooState
+from kazoo.exceptions import KazooException
+from kazoo.handlers.threading import KazooTimeoutError
+
 import logging
 
 class zoo_handler:
@@ -16,31 +19,53 @@ class zoo_handler:
             elif state == KazooState.SUSPENDED:
                 self.state = "SUSPENDED"
             else:
-                self.state = "SUSPENDED"
+                self.state = "CONNECTED"
         self.host = host
         self.port = port
         self.zk = KazooClient(host+":"+str(port))
-        self.zk.start()
-        self.logging = logging.basicConfig()
-        self.zk.add_listener(conn_listener)
+        try:
+            self.zk.start()
+            self.logging = logging.basicConfig()
+            self.zk.add_listener(conn_listener)
+            self.state = self.zk.state
+        except Exception:
+            self.zk=None
+            self.state = self.zk.state
 
     def ensure_path(self,path):
-        self.zk.ensure_path(path)
+        if (self.zk.state == "CONNECTED"):
+            self.zk.ensure_path(path)
+        self.state = self.zk.state
 
     def create(self,path):
-        self.zk.create(path)
+        if (self.zk.state == "CONNECTED"):
+            self.zk.create(path)
+        self.state = self.zk.state
 
     def exists(self,node):
-        return self.zk.exists(node)
+        self.state = self.zk.state
+        if (self.zk.state == "CONNECTED"):
+            return self.zk.exists(node)
+        return None
 
     def get_node_data(self,node):
-        return self.zk.get(node)
+        self.state = self.zk.state
+        if (self.zk.state == "CONNECTED"):
+            return self.zk.get(node)
+        return None
 
     def get_children(self,path):
-        return self.zk.get_children(path)
+        self.state = self.zk.state
+        if (self.zk.state == "CONNECTED"):
+            return self.zk.get_children(path)
+        return None
 
     def set_node_data(self,node,data):
-        self.zk.set(node,data)
+        self.state = self.zk.state
+        if (self.zk.state == "CONNECTED"):
+            self.zk.set(node,data)
 
     def delete_node(self,node,isrecursive):
-        self.zk.delete(node,recursive=isrecursive)
+        self.state = self.zk.state
+        if (self.zk.state == "CONNECTED"):
+            self.zk.delete(node,recursive=isrecursive)
