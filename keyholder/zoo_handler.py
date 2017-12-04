@@ -27,10 +27,8 @@ class zoo_handler:
             self.zk.start()
             self.logging = logging.basicConfig()
             self.zk.add_listener(conn_listener)
-            self.state = self.zk.state
         except Exception:
             self.zk=None
-            self.state = self.zk.state
 
     def ensure_path(self,path):
         if (self.zk.state == "CONNECTED"):
