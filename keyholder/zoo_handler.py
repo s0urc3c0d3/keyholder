@@ -27,6 +27,7 @@ class zoo_handler:
             self.zk.start()
             self.logging = logging.basicConfig()
             self.zk.add_listener(conn_listener)
+            self.state = "CONNECTED"
         except Exception:
             self.state="LOST"
             self.zk=None
