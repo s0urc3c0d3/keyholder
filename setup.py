@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='keyholder',
-      version='0.2.1',
+      version='0.2.2',
       description='Wrapper for multiple key-value stores',
       url='https://github.com/s0urc3c0d3/keyholder',
       author='Grzegorz Dwornicki',

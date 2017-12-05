@@ -28,6 +28,7 @@ class zoo_handler:
             self.logging = logging.basicConfig()
             self.zk.add_listener(conn_listener)
         except Exception:
+            self.state="LOST"
             self.zk=None
 
     def ensure_path(self,path):

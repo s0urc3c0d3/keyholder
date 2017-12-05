@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: keyholder
-Version: 0.2
+Version: 0.2.1
 Summary: Wrapper for multiple key-value stores
 Home-page: https://github.com/s0urc3c0d3/keyholder
 Author: Grzegorz Dwornicki
