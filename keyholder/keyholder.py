@@ -16,9 +16,6 @@ class keyholder:
             self.conn = zoo_handler.zoo_handler(self.host,self.port)
             self.state = self.conn.state
 
-    def ensure_path(self,path):
-        self.conn.ensure_path(path)
-
     def create(self,path):
         self.conn.create(path)
 
@@ -29,7 +26,9 @@ class keyholder:
         self.conn.create(path)
 
     def exists(self,node):
-        return self.conn.exists(node)
+        if (self.conn.exists(node) == None):
+            return False
+        return True
 
     def get_node_data(self,node):
         return self.conn.get_node_data(node)
