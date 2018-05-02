@@ -1,5 +1,5 @@
 #!/usr/bin/python2.7
-import keyholder.keyholder
+import keyholder2.keyholder
 import argparse
 import logging
 from re import match
@@ -17,7 +17,7 @@ if (args.TYPE == "zookeeper" and match(
         "^[012]{0,1}[0-9]{0,1}[0-9]{1}\.[012]{0,1}[0-9]{0,1}[0-9]{1}\.[012]{0,1}[0-9]{0,1}[0-9]{1}\.[012]{0,1}[0-9]{0,1}[0-9]{1}",
         args.HOST) and args.PORT < 65535 and args.PORT > 0):
 
-    conn = keyholder.keyholder.keyholder("ceph", args.TYPE, args.HOST, args.PORT)
+    conn = keyholder2("ceph", args.TYPE, args.HOST, args.PORT)
 
     with open("/opt/ceph/ceph/ceph.conf", "rw") as myfile:
         data = myfile.read()

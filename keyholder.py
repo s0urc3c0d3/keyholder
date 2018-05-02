@@ -1,4 +1,4 @@
-import zoo_handler
+from handlers.zoo_handler import *
 
 class keyholder:
     host = ""
@@ -13,7 +13,7 @@ class keyholder:
         self.type = type
         self.namespace = namespace
         if (self.type == "zookeeper"):
-            self.conn = zoo_handler.zoo_handler(self.host,self.port)
+            self.conn = zoo_handler(self.host, self.port)
             self.state = self.conn.state
 
     def create(self,path):
@@ -21,9 +21,6 @@ class keyholder:
 
     def ensure_path(self,path):
         self.conn.ensure_path(path)
-
-    def create(self,path):
-        self.conn.create(path)
 
     def exists(self,node):
         if (self.conn.exists(node) == None):
@@ -33,12 +30,9 @@ class keyholder:
     def get_node_data(self,node):
         return self.conn.get_node_data(node)
 
-    def get_children(self,path):
-        return self.conn.get_children(path)
-
     def set_node_data(self,node,data):
         self.conn.set_node_data(node,data)
 
     def delete_node(self,node,isrecursive):
-        self.conn.delete(node,recursive=isrecursive)
+        self.conn.delete_node(node,isrecursive)
 

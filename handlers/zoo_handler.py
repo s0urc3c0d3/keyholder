@@ -2,10 +2,13 @@ from kazoo.client import KazooClient
 from kazoo.client import KazooState
 from kazoo.exceptions import KazooException
 from kazoo.handlers.threading import KazooTimeoutError
+from interface import implements
+from keyHandler import keyHandler
 
 import logging
+import kazoo
 
-class zoo_handler:
+class zoo_handler(implements(keyHandler)):
     zk = None
     host = ""
     port = 0
@@ -54,12 +57,6 @@ class zoo_handler:
             return self.zk.get(node)
         return None
 
-    def get_children(self,path):
-        self.state = self.zk.state
-        if (self.zk.state == "CONNECTED"):
-            return self.zk.get_children(path)
-        return None
-
     def set_node_data(self,node,data):
         self.state = self.zk.state
         if (self.zk.state == "CONNECTED"):
@@ -68,4 +65,4 @@ class zoo_handler:
     def delete_node(self,node,isrecursive):
         self.state = self.zk.state
         if (self.zk.state == "CONNECTED"):
-            self.zk.delete(node,recursive=isrecursive)
+            self.zk.delete(node,-1,isrecursive)
